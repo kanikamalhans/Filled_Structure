@@ -1,0 +1,263 @@
+/* App.js */
+import React, { Component } from 'react';
+import CanvasJSReact from '@canvasjs/react-charts';
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
+class App extends Component {
+	constructor() {
+		super();
+		this.state = {
+			year: 2023 // Default year
+		};
+		this.toggleDataSeries = this.toggleDataSeries.bind(this);
+		this.handleYearChange = this.handleYearChange.bind(this);
+	}
+
+	toggleDataSeries(e) {
+		if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
+			e.dataSeries.visible = false;
+		} else {
+			e.dataSeries.visible = true;
+		}
+		this.chart.render();
+	}
+
+	handleYearChange(event) {
+		this.setState({ year: event.target.value });
+	}
+
+	render() {
+		const year = this.state.year;
+		const options = {
+			animationEnabled: true,
+			exportEnabled: true,
+			title: {
+				text: `State vs Products (${year})`,
+				fontFamily: "Wells Fargo Sans",
+				fontSize: 24,
+				fontWeight: "normal"
+			},
+			axisX: {
+				title: "States of USA",
+				labelFontFamily: "Wells Fargo Sans",
+				labelAngle: -45,
+				interval: 1 // Ensure every label is displayed
+			},
+			axisY: {
+				title: "Products",
+				labelFontFamily: "Wells Fargo Sans",
+				includeZero: true
+			},
+			toolTip: {
+				shared: true,
+				reversed: true
+			},
+			legend: {
+				verticalAlign: "center",
+				horizontalAlign: "right",
+				reversed: true,
+				cursor: "pointer",
+				itemclick: this.toggleDataSeries
+			},
+			data: [
+				{
+					type: "stackedColumn",
+					name: "General",
+					showInLegend: true,
+					yValueFormatString: "#,###k",
+					dataPoints: [
+						{ label: "AL", y: 14 },
+						{ label: "AK", y: 12 },
+						{ label: "AZ", y: 14 },
+						{ label: "AR", y: 13 },
+						{ label: "CA", y: 13 },
+						{ label: "CO", y: 13 },
+						{ label: "CT", y: 14 },
+						{ label: "DE", y: 14 },
+						{ label: "FL", y: 13 },
+						{ label: "GA", y: 14 },
+						{ label: "HI", y: 14 },
+						{ label: "ID", y: 14 },
+						{ label: "IL", y: 12 },
+						{ label: "IN", y: 14 },
+						{ label: "IA", y: 13 },
+						{ label: "KS", y: 13 },
+						{ label: "KY", y: 14 },
+						{ label: "LA", y: 14 },
+						{ label: "ME", y: 13 },
+						{ label: "MD", y: 14 },
+						{ label: "MA", y: 14 },
+						{ label: "MI", y: 14 },
+						{ label: "MN", y: 13 },
+						{ label: "MS", y: 14 },
+						{ label: "MO", y: 14 },
+						{ label: "MT", y: 13 },
+						{ label: "NE", y: 14 },
+						{ label: "NV", y: 14 },
+						{ label: "NH", y: 13 },
+						{ label: "NJ", y: 14 },
+						{ label: "NM", y: 14 },
+						{ label: "NY", y: 13 },
+						{ label: "NC", y: 14 },
+						{ label: "ND", y: 14 },
+						{ label: "OH", y: 14 },
+						{ label: "OK", y: 13 },
+						{ label: "OR", y: 14 },
+						{ label: "PA", y: 14 },
+						{ label: "RI", y: 13 },
+						{ label: "SC", y: 14 },
+						{ label: "SD", y: 14 },
+						{ label: "TN", y: 13 },
+						{ label: "TX", y: 14 },
+						{ label: "UT", y: 14 },
+						{ label: "VT", y: 13 },
+						{ label: "VA", y: 14 },
+						{ label: "WA", y: 14 },
+						{ label: "WV", y: 13 },
+						{ label: "WI", y: 14 },
+						{ label: "WY", y: 14 }
+					]
+				},
+				{
+					type: "stackedColumn",
+					name: "Marketing",
+					showInLegend: true,
+					yValueFormatString: "#,###k",
+					dataPoints: [
+						{ label: "AL", y: 13 },
+						{ label: "AK", y: 13 },
+						{ label: "AZ", y: 15 },
+						{ label: "AR", y: 16 },
+						{ label: "CA", y: 17 },
+						{ label: "CO", y: 17 },
+						{ label: "CT", y: 18 },
+						{ label: "DE", y: 18 },
+						{ label: "FL", y: 17 },
+						{ label: "GA", y: 18 },
+						{ label: "HI", y: 18 },
+						{ label: "ID", y: 18 },
+						{ label: "IL", y: 13 },
+						{ label: "IN", y: 13 },
+						{ label: "IA", y: 15 },
+						{ label: "KS", y: 16 },
+						{ label: "KY", y: 17 },
+						{ label: "LA", y: 17 },
+						{ label: "ME", y: 18 },
+						{ label: "MD", y: 18 },
+						{ label: "MA", y: 17 },
+						{ label: "MI", y: 18 },
+						{ label: "MN", y: 17 },
+						{ label: "MS", y: 18 },
+						{ label: "MO", y: 18 },
+						{ label: "MT", y: 17 },
+						{ label: "NE", y: 18 },
+						{ label: "NV", y: 17 },
+						{ label: "NH", y: 18 },
+						{ label: "NJ", y: 18 },
+						{ label: "NM", y: 17 },
+						{ label: "NY", y: 18 },
+						{ label: "NC", y: 18 },
+						{ label: "ND", y: 17 },
+						{ label: "OH", y: 18 },
+						{ label: "OK", y: 18 },
+						{ label: "OR", y: 17 },
+						{ label: "PA", y: 18 },
+						{ label: "RI", y: 18 },
+						{ label: "SC", y: 17 },
+						{ label: "SD", y: 18 },
+						{ label: "TN", y: 17 },
+						{ label: "TX", y: 18 },
+						{ label: "UT", y: 17 },
+						{ label: "VT", y: 18 },
+						{ label: "VA", y: 18 },
+						{ label: "WA", y: 17 },
+						{ label: "WV", y: 18 },
+						{ label: "WI", y: 18 },
+						{ label: "WY", y: 18 }
+					]
+				},
+				{
+					type: "stackedColumn",
+					name: "Sales",
+					showInLegend: true,
+					yValueFormatString: "#,###k",
+					dataPoints: [
+						{ label: "AL", y: 13 },
+						{ label: "AK", y: 13 },
+						{ label: "AZ", y: 15 },
+						{ label: "AR", y: 15 },
+						{ label: "CA", y: 15 },
+						{ label: "CO", y: 15 },
+						{ label: "CT", y: 16 },
+						{ label: "DE", y: 17 },
+						{ label: "FL", y: 17 },
+						{ label: "GA", y: 17 },
+						{ label: "HI", y: 18 },
+						{ label: "ID", y: 18 },
+						{ label: "IL", y: 15 },
+						{ label: "IN", y: 15 },
+						{ label: "IA", y: 15 },
+						{ label: "KS", y: 15 },
+						{ label: "KY", y: 15 },
+						{ label: "LA", y: 15 },
+						{ label: "ME", y: 15 },
+						{ label: "MD", y: 15 },
+						{ label: "MA", y: 16 },
+						{ label: "MI", y: 17 },
+						{ label: "MN", y: 18 },
+						{ label: "MS", y: 19 },
+						{ label: "MO", y: 20 },
+						{ label: "MT", y: 14 },
+						{ label: "NE", y: 14 },
+						{ label: "NV", y: 14 },
+						{ label: "NH", y: 14 },
+						{ label: "NJ", y: 15 },
+						{ label: "NM", y: 15 },
+						{ label: "NY", y: 16 },
+						{ label: "NC", y: 17 },
+						{ label: "ND", y: 18 },
+						{ label: "OH", y: 19 },
+						{ label: "OK", y: 20 },
+						{ label: "OR", y: 14 },
+						{ label: "PA", y: 15 },
+						{ label: "RI", y: 16 },
+						{ label: "SC", y: 17 },
+						{ label: "SD", y: 18 },
+						{ label: "TN", y: 19 },
+						{ label: "TX", y: 20 },
+						{ label: "UT", y: 14 },
+						{ label: "VT", y: 15 },
+						{ label: "VA", y: 16 },
+						{ label: "WA", y: 17 },
+						{ label: "WV", y: 18 },
+						{ label: "WI", y: 19 },
+						{ label: "WY", y: 20 }
+					]
+				}
+			]
+		};
+
+		return (
+			<div>
+				<div style={{ fontFamily: "Wells Fargo Sans", marginBottom: "10px" }}>
+					<label htmlFor="year-select">Select Year: </label>
+					<select
+						id="year-select"
+						value={this.state.year}
+						onChange={this.handleYearChange}
+						style={{ fontFamily: "Wells Fargo Sans", fontSize: "16px", padding: "5px" }}
+					>
+						<option value="2023">2023</option>
+						<option value="2022">2022</option>
+						<option value="2021">2021</option>
+						<option value="2020">2020</option>
+					</select>
+				</div>
+				<CanvasJSChart options={options} onRef={ref => (this.chart = ref)} />
+				{/* You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods */}
+			</div>
+		);
+	}
+}
+
+export default App;
