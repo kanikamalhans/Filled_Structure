@@ -1,0 +1,128 @@
+/* App.js */
+import React, { Component } from 'react';
+import CanvasJSReact from '@canvasjs/react-charts';
+
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
+class App extends Component {
+	constructor() {
+		super();
+		this.toggleDataSeries = this.toggleDataSeries.bind(this);
+	}
+
+	toggleDataSeries(e) {
+		if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
+			e.dataSeries.visible = false;
+		} else {
+			e.dataSeries.visible = true;
+		}
+		this.chart.render();
+	}
+
+	render() {
+		const options = {
+			animationEnabled: true,
+			exportEnabled: true,
+			title: {
+				text: "State vs Products",
+				fontFamily: "Wells Fargo Sans",
+				fontSize: 24,
+				fontWeight: "normal"
+			},
+			axisX: {
+				title: "States of USA",
+				labelFontFamily: "Wells Fargo Sans",
+				labelAngle: -45,
+				interval: 1 // Display every label
+			},
+			axisY: {
+				title: "Products",
+				labelFontFamily: "Wells Fargo Sans",
+				includeZero: true,
+				suffix: ""
+			},
+			toolTip: {
+				shared: true,
+				reversed: true
+			},
+			legend: {
+				verticalAlign: "center",
+				horizontalAlign: "right",
+				reversed: true,
+				cursor: "pointer",
+				itemclick: this.toggleDataSeries
+			},
+			data: [
+				{
+					type: "stackedColumn",
+					name: "General",
+					showInLegend: true,
+					yValueFormatString: "#,###k",
+					dataPoints: [
+						{ label: "California", y: 14 },
+						{ label: "Texas", y: 12 },
+						{ label: "Florida", y: 14 },
+						{ label: "New York", y: 13 },
+						{ label: "Pennsylvania", y: 13 },
+						{ label: "Illinois", y: 13 },
+						{ label: "Ohio", y: 14 },
+						{ label: "Georgia", y: 14 },
+						{ label: "North Carolina", y: 13 },
+						{ label: "Michigan", y: 14 },
+						{ label: "New Jersey", y: 14 },
+						{ label: "Virginia", y: 14 }
+					]
+				},
+				{
+					type: "stackedColumn",
+					name: "Marketing",
+					showInLegend: true,
+					yValueFormatString: "#,###k",
+					dataPoints: [
+						{ label: "California", y: 13 },
+						{ label: "Texas", y: 13 },
+						{ label: "Florida", y: 15 },
+						{ label: "New York", y: 16 },
+						{ label: "Pennsylvania", y: 17 },
+						{ label: "Illinois", y: 17 },
+						{ label: "Ohio", y: 18 },
+						{ label: "Georgia", y: 18 },
+						{ label: "North Carolina", y: 17 },
+						{ label: "Michigan", y: 18 },
+						{ label: "New Jersey", y: 18 },
+						{ label: "Virginia", y: 18 }
+					]
+				},
+				{
+					type: "stackedColumn",
+					name: "Sales",
+					showInLegend: true,
+					yValueFormatString: "#,###k",
+					dataPoints: [
+						{ label: "California", y: 13 },
+						{ label: "Texas", y: 13 },
+						{ label: "Florida", y: 15 },
+						{ label: "New York", y: 15 },
+						{ label: "Pennsylvania", y: 15 },
+						{ label: "Illinois", y: 15 },
+						{ label: "Ohio", y: 16 },
+						{ label: "Georgia", y: 17 },
+						{ label: "North Carolina", y: 17 },
+						{ label: "Michigan", y: 18 },
+						{ label: "New Jersey", y: 19 },
+						{ label: "Virginia", y: 20 }
+					]
+				}
+			]
+		};
+
+		return (
+			<div>
+				<CanvasJSChart options={options} onRef={ref => this.chart = ref} />
+				{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
+			</div>
+		);
+	}
+}
+
+export default App;
