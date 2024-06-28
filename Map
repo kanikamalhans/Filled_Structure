@@ -1,0 +1,54 @@
+/* USChoroplethMap.js */
+import React from 'react';
+import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
+import { scaleQuantize } from 'd3-scale';
+import USMap from './us-states.json'; // GeoJSON file for the US map
+
+// Example data: Number of advisors per state
+const advisorsData = {
+  AL: 10, AK: 5, AZ: 15, AR: 20, CA: 30, CO: 25, CT: 10, DE: 5, FL: 40, GA: 30,
+  HI: 5, ID: 10, IL: 35, IN: 15, IA: 20, KS: 10, KY: 10, LA: 15, ME: 5, MD: 20,
+  MA: 25, MI: 20, MN: 15, MS: 5, MO: 20, MT: 5, NE: 10, NV: 10, NH: 5, NJ: 25,
+  NM: 10, NY: 35, NC: 25, ND: 5, OH: 30, OK: 10, OR: 15, PA: 30, RI: 5, SC: 15,
+  SD: 5, TN: 20, TX: 50, UT: 10, VT: 5, VA: 25, WA: 20, WV: 5, WI: 15, WY: 5
+};
+
+// Color scale for the map
+const colorScale = scaleQuantize()
+  .domain([0, 50]) // Range of data values
+  .range([
+    "#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6",
+    "#4292c6", "#2171b5", "#08519c", "#08306b"
+  ]);
+
+const USChoroplethMap = () => {
+  return (
+    <ComposableMap projection="geoAlbersUsa" data-tip="">
+      <Geographies geography={USMap}>
+        {({ geographies }) =>
+          geographies.map(geo => {
+            const stateCode = geo.properties.iso_3166_2;
+            const advisors = advisorsData[stateCode] || 0;
+            return (
+              <Geography
+                key={geo.rsmKey}
+                geography={geo}
+                fill={colorScale(advisors)}
+                stroke="#FFF"
+                strokeWidth={0.5}
+                onMouseEnter={() => {
+                  // Implement tooltip or interaction here if needed
+                }}
+                onMouseLeave={() => {
+                  // Implement tooltip or interaction here if needed
+                }}
+              />
+            );
+          })
+        }
+      </Geographies>
+    </ComposableMap>
+  );
+};
+
+export default USChoroplethMap;
