@@ -1,0 +1,70 @@
+/* App.js */
+import React, { Component } from 'react';
+import CanvasJSReact from '@canvasjs/react-charts';
+//var CanvasJSReact = require('@canvasjs/react-charts');
+ 
+var CanvasJS = CanvasJSReact.CanvasJS;
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      year: '2024' // Initial year filter
+    };
+  }
+
+  handleYearChange = (event) => {
+    this.setState({ year: event.target.value });
+  };
+
+  render() {
+    const options = {
+      theme: "dark2",
+      animationEnabled: true,
+      exportFileName: "Advisor Category Distribution",
+      exportEnabled: true,
+      title: {
+        text: "Advisor Category Distribution"
+      },
+      subtitles: [{
+        text: `Year: ${this.state.year}`,
+        fontFamily: "Wells Fargo Sans"
+      }],
+      data: [{
+        type: "pie",
+        showInLegend: true,
+        legendText: "{label}",
+        toolTipContent: "{label}: <strong>{y}%</strong>",
+        indexLabel: "{y}%",
+        indexLabelPlacement: "inside",
+        dataPoints: [
+          { y: 58, label: "RIA" },
+          { y: 36, label: "Brokers" },
+          { y: 7, label: "Other" }
+        ]
+      }],
+      // Adding a font family for the chart text
+      fontFamily: "Wells Fargo Sans"
+    };
+
+    return (
+      <div>
+        <div>
+          <label htmlFor="yearFilter">Select Year: </label>
+          <select id="yearFilter" value={this.state.year} onChange={this.handleYearChange}>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+          </select>
+        </div>
+        <CanvasJSChart options={options}
+          /* onRef={ref => this.chart = ref} */
+        />
+        {/* You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods */}
+      </div>
+    );
+  }
+}
+
+export default App;
