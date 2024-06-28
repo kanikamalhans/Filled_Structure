@@ -1,0 +1,141 @@
+To change the font of your navbar to "Wells Fargo Sans," you need to follow these steps:
+
+Include the "Wells Fargo Sans" Font:
+
+If the font is available as a web font, you can link to it via a CSS import or a <link> tag in your HTML.
+If it's a custom or proprietary font, you may need to include it as a local font file and use @font-face in your CSS.
+Apply the Font to the Navbar:
+
+Use CSS to set the font-family for the navbar to "Wells Fargo Sans".
+Steps to Include and Use "Wells Fargo Sans" Font
+1. If "Wells Fargo Sans" is Available via a Web Font
+
+Check if "Wells Fargo Sans" is hosted on a service like Google Fonts or Adobe Fonts. If it is, include it in your project. For example, if it's on Google Fonts, you can add it like this:
+Using Google Fonts:
+
+html
+Copy code
+<!-- In your public/index.html or directly in your CSS file -->
+<link href="https://fonts.googleapis.com/css2?family=Wells+Fargo+Sans&display=swap" rel="stylesheet">
+Using CSS Import:
+
+css
+Copy code
+/* In your CSS file */
+@import url('https://fonts.googleapis.com/css2?family=Wells+Fargo+Sans&display=swap');
+2. If "Wells Fargo Sans" is a Local Font
+
+Add the font files to your project, typically in a directory like src/assets/fonts.
+Use @font-face in your CSS to define the font.
+Example:
+
+css
+Copy code
+/* In your src/assets/fonts directory */
+@font-face {
+  font-family: 'Wells Fargo Sans';
+  src: url('../assets/fonts/wells-fargo-sans.woff2') format('woff2'),
+       url('../assets/fonts/wells-fargo-sans.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+Replace the URLs with the correct paths to your font files.
+
+Applying the Font to the Navbar
+Once the font is included, apply it to your Navbar component:
+
+In Navbar.css:
+
+css
+Copy code
+/* src/components/Navbar.css */
+.navbar {
+  font-family: 'Wells Fargo Sans', sans-serif; /* Apply the custom font */
+  /* other styles */
+}
+
+.logo {
+  font-family: 'Wells Fargo Sans', sans-serif; /* Apply the custom font to logo text if needed */
+}
+
+/* If you need to apply the font to other elements specifically */
+.nav-links {
+  font-family: 'Wells Fargo Sans', sans-serif; /* Apply the custom font to nav links */
+}
+Complete Example with Navbar Component and CSS:
+
+Ensure your project structure allows the font files to be correctly referenced. For the full CSS and component, it should look like this:
+
+Navbar.jsx
+jsx
+Copy code
+import React from 'react';
+import './Navbar.css';
+import { Outlet, Link } from 'react-router-dom';
+import logo from '../assets/wells-fargo-logo.png'; // Adjust the path as needed
+
+const Navbar = () => {
+  return (
+    <>
+      <nav className="navbar">
+        <div className="navbar-left">
+          <Link to="/" className="logo">
+            <img src={logo} alt="Wells Fargo Logo" className="logo-image" />
+          </Link>
+        </div>
+        <div className="navbar-center">
+          <ul className="nav-links">
+            <li>
+              <Link to="/">Dashboard</Link>
+            </li>
+            <li>
+              <Link to="/customer-navigation">Customer Navigation</Link>
+            </li>
+            <li>
+              <Link to="/product-analytics">Product Analytics</Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <Outlet />
+    </>
+  );
+};
+
+export default Navbar;
+Navbar.css
+css
+Copy code
+/* src/components/Navbar.css */
+@import url('https://fonts.googleapis.com/css2?family=Wells+Fargo+Sans&display=swap'); /* Import from Google Fonts if available */
+
+/* or include custom font via @font-face */
+@font-face {
+  font-family: 'Wells Fargo Sans';
+  src: url('../assets/fonts/wells-fargo-sans.woff2') format('woff2'),
+       url('../assets/fonts/wells-fargo-sans.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.navbar {
+  font-family: 'Wells Fargo Sans', sans-serif;
+  /* other navbar styles */
+}
+
+.logo {
+  font-family: 'Wells Fargo Sans', sans-serif;
+}
+
+.nav-links {
+  font-family: 'Wells Fargo Sans', sans-serif;
+}
+
+.logo-image {
+  height: 40px; /* Adjust as needed */
+  width: auto;
+}
+Notes:
+Adjust the paths in @font-face to correctly point to your local font files.
+You may need to tweak the styling to ensure the font appears as expected across different browsers.
+By following these steps, you should be able to apply the "Wells Fargo Sans" font to your navbar successfully.
