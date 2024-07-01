@@ -1,0 +1,238 @@
+Got it! We'll adjust the bar chart and stacked column chart to match your specifications:
+
+1. **UserGrowthChart** will now be a bar chart displaying "Advisors vs. Products".
+2. **AdvisorPerformanceChart** will be a stacked column chart displaying "State vs. Products for One Particular Customer".
+
+### 1. Bar Chart (Advisors vs. Products)
+
+This chart shows the products handled by different advisors.
+
+```jsx
+// src/components/charts/AdvisorsProductsChart.jsx
+
+import React from 'react';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const AdvisorsProductsChart = () => {
+  const data = {
+    labels: ['Advisor A', 'Advisor B', 'Advisor C', 'Advisor D'],
+    datasets: [
+      {
+        label: 'Products',
+        data: [10, 15, 8, 20],
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: 'Advisors vs. Products',
+        font: {
+          size: 18,
+        },
+        padding: {
+          top: 10,
+          bottom: 20,
+        },
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          font: {
+            size: 14,
+          },
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            return `${context.dataset.label}: ${context.raw}`;
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+      },
+      y: {
+        beginAtZero: true,
+      },
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+  };
+
+  return (
+    <div style={{ width: '100%', height: '100%' }}>
+      <Bar data={data} options={options} />
+    </div>
+  );
+};
+
+export default AdvisorsProductsChart;
+```
+
+### 2. Stacked Column Chart (State vs. Products for One Particular Customer)
+
+This chart shows the distribution of different products across states for a particular customer.
+
+```jsx
+// src/components/charts/StateProductsChart.jsx
+
+import React from 'react';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const StateProductsChart = () => {
+  const data = {
+    labels: ['California', 'Texas', 'New York', 'Florida'],
+    datasets: [
+      {
+        label: 'Product 1',
+        data: [20, 30, 10, 40],
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+      {
+        label: 'Product 2',
+        data: [15, 25, 20, 35],
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+      },
+      {
+        label: 'Product 3',
+        data: [10, 20, 15, 30],
+        backgroundColor: 'rgba(255, 206, 86, 0.6)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: 'State vs. Products for One Particular Customer',
+        font: {
+          size: 18,
+        },
+        padding: {
+          top: 10,
+          bottom: 20,
+        },
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          font: {
+            size: 14,
+          },
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            return `${context.dataset.label}: ${context.raw}`;
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+        beginAtZero: true,
+      },
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+  };
+
+  return (
+    <div style={{ width: '100%', height: '100%' }}>
+      <Bar data={data} options={options} />
+    </div>
+  );
+};
+
+export default StateProductsChart;
+```
+
+### Usage in Your Page
+
+To use these components, import them into your page and include them in your layout. For example:
+
+```jsx
+// src/pages/Analytics.jsx
+
+import React from 'react';
+import './Analytics.css';
+import USAMap from '../components/charts/USAMap';
+import AdvisorCategoryDistribution from '../components/charts/AdvisorCategoryDistribution';
+import AdvisorsProductsChart from '../components/charts/AdvisorsProductsChart';
+import StateProductsChart from '../components/charts/StateProductsChart';
+
+const Analytics = () => {
+  return (
+    <div className="analytics">
+      <div className="top-grid">
+        <USAMap />
+      </div>
+      <div className="bottom-grid">
+        <div className="grid-item">
+          <AdvisorCategoryDistribution />
+        </div>
+        <div className="grid-item">
+          <AdvisorsProductsChart />
+        </div>
+        <div className="grid-item">
+          <StateProductsChart />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Analytics;
+```
+
+### Summary
+
+- **AdvisorsProductsChart**: Bar chart showing the number of products handled by different advisors.
+- **StateProductsChart**: Stacked column chart showing the distribution of different products across states for a particular customer.
+
+These changes should fit your requirements and provide clear visualizations using Chart.js.
