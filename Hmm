@@ -1,0 +1,252 @@
+To add a year filter and update the charts accordingly, we'll need to introduce a dropdown or select input to choose the year. The charts will then be updated based on the selected year. We'll also adjust the `StateProductsChart` to display data for all 50 states using their two-letter codes.
+
+### Updated Components with Year Filter
+
+#### 1. Bar Chart (Advisors vs. Products) with Year Filter
+
+```jsx
+// src/components/charts/AdvisorsProductsChart.jsx
+
+import React, { useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const AdvisorsProductsChart = () => {
+  const [year, setYear] = useState('2023');
+
+  const handleYearChange = (e) => {
+    setYear(e.target.value);
+  };
+
+  // Mock data for demonstration
+  const dataByYear = {
+    '2023': [10, 15, 8, 20],
+    '2022': [8, 18, 7, 15],
+    '2021': [12, 10, 15, 25],
+  };
+
+  const data = {
+    labels: ['Advisor A', 'Advisor B', 'Advisor C', 'Advisor D'],
+    datasets: [
+      {
+        label: `Products in ${year}`,
+        data: dataByYear[year],
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: 'Advisors vs. Products',
+        font: {
+          size: 18,
+        },
+        padding: {
+          top: 10,
+          bottom: 20,
+        },
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          font: {
+            size: 14,
+          },
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            return `${context.dataset.label}: ${context.raw}`;
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+      },
+      y: {
+        beginAtZero: true,
+      },
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+  };
+
+  return (
+    <div style={{ width: '100%', height: '100%' }}>
+      <select value={year} onChange={handleYearChange} style={{ marginBottom: '20px' }}>
+        <option value="2023">2023</option>
+        <option value="2022">2022</option>
+        <option value="2021">2021</option>
+      </select>
+      <Bar data={data} options={options} />
+    </div>
+  );
+};
+
+export default AdvisorsProductsChart;
+```
+
+#### 2. Stacked Column Chart (State vs. Products for One Particular Customer) with Year Filter
+
+```jsx
+// src/components/charts/StateProductsChart.jsx
+
+import React, { useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const StateProductsChart = () => {
+  const [year, setYear] = useState('2023');
+
+  const handleYearChange = (e) => {
+    setYear(e.target.value);
+  };
+
+  // Mock data for demonstration
+  const dataByYear = {
+    '2023': {
+      'Product 1': [20, 30, 10, 40, 15, 25, 30, 20, 25, 10, 15, 35, 40, 30, 20, 10, 15, 25, 35, 10, 20, 25, 30, 40, 20, 30, 10, 40, 15, 25, 30, 20, 25, 10, 15, 35, 40, 30, 20, 10, 15, 25, 35, 10, 20, 25, 30, 40, 50, 30],
+      'Product 2': [10, 20, 30, 25, 35, 20, 10, 30, 20, 15, 35, 40, 10, 20, 30, 15, 35, 25, 10, 20, 35, 20, 30, 10, 25, 15, 30, 40, 15, 20, 25, 35, 10, 30, 20, 25, 35, 20, 30, 15, 25, 10, 20, 30, 35, 40, 15, 25, 20, 30],
+      'Product 3': [15, 25, 35, 10, 20, 25, 35, 10, 30, 20, 25, 35, 15, 25, 35, 10, 20, 15, 35, 25, 10, 20, 35, 25, 15, 30, 20, 35, 25, 10, 15, 20, 25, 10, 30, 20, 15, 35, 10, 25, 20, 30, 10, 20, 35, 25, 30, 10, 20, 35],
+    },
+    '2022': {
+      'Product 1': [25, 35, 15, 45, 20, 30, 35, 25, 30, 15, 20, 40, 45, 35, 25, 15, 20, 30, 40, 15, 25, 30, 35, 45, 25, 35, 15, 45, 20, 30, 35, 25, 30, 15, 20, 40, 45, 35, 25, 15, 20, 30, 40, 15, 25, 30, 35, 45, 55, 35],
+      'Product 2': [15, 25, 35, 30, 40, 25, 15, 35, 25, 20, 40, 45, 15, 25, 35, 20, 40, 30, 15, 25, 40, 25, 35, 15, 30, 20, 35, 45, 20, 25, 30, 40, 15, 35, 25, 30, 40, 25, 35, 20, 30, 15, 25, 35, 40, 45, 20, 30, 25, 35],
+      'Product 3': [20, 30, 40, 15, 25, 30, 40, 15, 35, 25, 30, 40, 20, 30, 40, 15, 25, 20, 40, 30, 15, 25, 40, 30, 20, 35, 25, 40, 30, 15, 20, 25, 30, 15, 35, 25, 20, 40, 15, 30, 25, 35, 15, 25, 40, 30, 35, 15, 25, 40],
+    },
+    '2021': {
+      'Product 1': [30, 40, 20, 50, 25, 35, 40, 30, 35, 20, 25, 45, 50, 40, 30, 20, 25, 35, 45, 20, 30, 35, 40, 50, 30, 40, 20, 50, 25, 35, 40, 30, 35, 20, 25, 45, 50, 40, 30, 20, 25, 35, 45, 20, 30, 35, 40, 50, 60, 40],
+      'Product 2': [20, 30, 40, 35, 45, 30, 20, 40, 30, 25, 45, 50, 20, 30, 40, 25, 45, 35, 20, 30, 45, 30, 40, 20, 35, 25, 40, 
+
+50, 25, 30, 35, 45, 20, 40, 30, 35, 45, 30, 40, 25, 35, 20, 30, 40, 45, 50, 25, 35, 30, 40],
+      'Product 3': [25, 35, 45, 20, 30, 35, 45, 20, 40, 30, 35, 45, 25, 35, 45, 20, 30, 25, 45, 35, 20, 30, 45, 35, 25, 40, 30, 45, 35, 20, 25, 30, 35, 20, 40, 30, 25, 45, 20, 35, 30, 40, 20, 30, 45, 35, 40, 20, 30, 45],
+    },
+  };
+
+  const states = [
+    'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+  ];
+
+  const data = {
+    labels: states,
+    datasets: [
+      {
+        label: 'Product 1',
+        data: dataByYear[year]['Product 1'],
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+      {
+        label: 'Product 2',
+        data: dataByYear[year]['Product 2'],
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+      },
+      {
+        label: 'Product 3',
+        data: dataByYear[year]['Product 3'],
+        backgroundColor: 'rgba(255, 206, 86, 0.6)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: 'State vs. Products for One Particular Customer',
+        font: {
+          size: 18,
+        },
+        padding: {
+          top: 10,
+          bottom: 20,
+        },
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          font: {
+            size: 14,
+          },
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            return `${context.dataset.label}: ${context.raw}`;
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+        beginAtZero: true,
+        maxBarThickness: 20,  // Adjusts the width of the columns
+      },
+      y: {
+        stacked: true,
+        beginAtZero: true,
+      },
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+  };
+
+  return (
+    <div style={{ width: '100%', height: '100%' }}>
+      <select value={year} onChange={handleYearChange} style={{ marginBottom: '20px' }}>
+        <option value="2023">2023</option>
+        <option value="2022">2022</option>
+        <option value="2021">2021</option>
+      </select>
+      <Bar data={data} options={options} />
+    </div>
+  );
+};
+
+export default StateProductsChart;
+```
+
+### Summary of Changes:
+
+1. **Year Filter**: A `<select>` element is used to choose the year, updating the chart data accordingly.
+2. **StateProductsChart**: This now includes all 50 states using their two-letter codes, and the width of the columns is adjusted using the `maxBarThickness` property.
+3. **Data**: Mock data is used for demonstration, simulating how different years' data would be displayed.
+
+Make sure to replace the mock data with actual data from your source as needed.
