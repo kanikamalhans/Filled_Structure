@@ -1,0 +1,66 @@
+import React, { useEffect, useRef } from 'react';
+import { Doughnut } from 'react-chartjs-2';
+import Chart from 'chart.js/auto';
+import 'chartjs-plugin-datalabels';
+
+const PieChart = ({ data, selectedYear, handleYearChange }) => {
+  const chartRef = useRef(null);
+
+  useEffect(() => {
+    const chartInstance = chartRef.current;
+
+    return () => {
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+    };
+  }, [data]);
+
+  const chartData = {
+    labels: Object.keys(data),
+    datasets: [
+      {
+        data: Object.values(data),
+        backgroundColor: ['#Eb691e', '#C83255', '#823291', '#5A469B'],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    plugins: {
+      legend: {
+        display: true,
+        position: 'right',
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'end',
+        formatter: (value, context) => context.chart.data.labels[context.dataIndex],
+        color: '#000',
+        font: {
+          size: 14,
+          weight: 'bold',
+        },
+      },
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  return (
+    <div>
+      <Doughnut ref={chartRef} data={chartData} options={chartOptions} />
+      <div className="year-filter">
+        <select value={selectedYear} onChange={(e) => handleYearChange(e.target.value)}>
+          <option value={2005}>2005</option>
+          <option value={2006}>2006</option>
+          <option value={2007}>2007</option>
+          <option value={2008}>2008</option>
+        </select>
+      </div>
+    </div>
+  );
+};
+
+export default PieChart;
