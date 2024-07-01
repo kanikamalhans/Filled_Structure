@@ -1,0 +1,90 @@
+// src/components/charts/AdvisorProductsChart.jsx
+
+import React, { useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+
+const AdvisorProductsChart = () => {
+  const [popupData, setPopupData] = useState(null); // State to manage popup data
+
+  // Data for demonstration
+  const data = {
+    labels: ['Product Category 1', 'Product Category 2', 'Product Category 3'],
+    datasets: [
+      {
+        label: 'Number of Advisors',
+        data: [10, 15, 8], // Example data, replace with your own
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    indexAxis: 'y',
+    plugins: {
+      tooltip: {
+        callbacks: {
+          title: () => '', // Remove title from tooltip
+          label: (tooltipItem) => {
+            const dataset = data.datasets[tooltipItem.datasetIndex];
+            const value = dataset.data[tooltipItem.index];
+            return `${dataset.label}: ${value}`;
+          },
+        },
+      },
+    },
+    onClick: (_, elements) => {
+      if (elements && elements.length > 0) {
+        const clickedIndex = elements[0].index;
+        const productLabel = data.labels[clickedIndex];
+        // Mock data for subproducts, replace with your own logic
+        const subproductData = {
+          labels: ['Subproduct 1', 'Subproduct 2', 'Subproduct 3'],
+          datasets: [
+            {
+              label: `Subproducts for ${productLabel}`,
+              data: [20, 30, 15], // Example data, replace with your own
+              backgroundColor: [
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)',
+              ],
+              borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+              ],
+              borderWidth: 1,
+            },
+          ],
+        };
+        setPopupData(subproductData); // Set popup data state
+      }
+    },
+  };
+
+  return (
+    <div>
+      <h2>Advisor vs. Product Categories</h2>
+      <Bar data={data} options={options} />
+      {popupData && (
+        <div className="popup">
+          <h3>{popupData.datasets[0].label}</h3>
+          <Bar data={popupData} />
+          <button onClick={() => setPopupData(null)}>Close</button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AdvisorProductsChart;
