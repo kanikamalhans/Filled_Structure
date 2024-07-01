@@ -1,0 +1,114 @@
+// src/components/charts/AdvisorProductsChart.jsx
+
+import React, { useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+
+const AdvisorProductsChart = () => {
+  const [popupData, setPopupData] = useState(null); // State to manage popup data
+  const [selectedYear, setSelectedYear] = useState('2023'); // Initial selected year
+
+  // Data for demonstration
+  const data = {
+    labels: ['Subproduct 1', 'Subproduct 2', 'Subproduct 3'],
+    datasets: [
+      {
+        label: 'Number of Advisors',
+        data: [20, 30, 15], // Example data, replace with your own
+        backgroundColor: [
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 159, 64, 0.6)',
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    indexAxis: 'y', // Flip axes
+    plugins: {
+      tooltip: {
+        callbacks: {
+          title: () => '', // Remove title from tooltip
+          label: (tooltipItem) => {
+            const dataset = data.datasets[tooltipItem.datasetIndex];
+            const value = dataset.data[tooltipItem.index];
+            return `${dataset.label}: ${value}`;
+          },
+        },
+      },
+    },
+    onClick: (_, elements) => {
+      if (elements && elements.length > 0) {
+        const clickedIndex = elements[0].index;
+        const subproductLabel = data.labels[clickedIndex];
+        // Mock data for subproducts, replace with your own logic
+        const subproductData = {
+          labels: [`${subproductLabel} - Year ${selectedYear}`],
+          datasets: [
+            {
+              label: `Subproducts for ${subproductLabel}`,
+              data: [10], // Example data, replace with your own
+              backgroundColor: [
+                'rgba(75, 192, 192, 0.6)',
+              ],
+              borderColor: [
+                'rgba(75, 192, 192, 1)',
+              ],
+              borderWidth: 1,
+            },
+          ],
+        };
+        setPopupData(subproductData); // Set popup data state
+      }
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 10,
+          callback: function(value) {
+            return `${value} advisors`;
+          }
+        }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function(value) {
+            return `${value} - Year ${selectedYear}`;
+          }
+        }
+      }
+    }
+  };
+
+  return (
+    <div>
+      <h2>Advisor vs. Subproducts</h2>
+      <div>
+        <label>Select Year:</label>
+        <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+        </select>
+      </div>
+      <Bar data={data} options={options} />
+      {popupData && (
+        <div className="popup">
+          <h3>{popupData.datasets[0].label}</h3>
+          <Bar data={popupData} options={options} />
+          <button onClick={() => setPopupData(null)}>Close</button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AdvisorProductsChart;
