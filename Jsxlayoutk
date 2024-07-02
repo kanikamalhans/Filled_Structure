@@ -1,0 +1,29 @@
+// src/App.js
+import React from 'react';
+import './layout.css'; // Import the CSS file
+
+import Sidebar from './components/Sidebar'; // Your Sidebar component
+import TopComponent from './components/TopComponent'; // Your top component (e.g., AdvisorProductsChart)
+import BottomLeftComponent from './components/BottomLeftComponent'; // Your bottom-left component (e.g., heatmap)
+import BottomRightComponent from './components/BottomRightComponent'; // Your bottom-right component
+
+const App = () => {
+  return (
+    <div className="container">
+      <div className="sidebar component">
+        <Sidebar />
+      </div>
+      <div className="top component">
+        <TopComponent />
+      </div>
+      <div className="bottom-left component">
+        <BottomLeftComponent />
+      </div>
+      <div className="bottom-right component">
+        <BottomRightComponent />
+      </div>
+    </div>
+  );
+};
+
+export default App;
