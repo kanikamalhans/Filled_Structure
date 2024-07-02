@@ -1,0 +1,120 @@
+To rename the CSS classes and adjust the grid structure in your `Dashboard.css` file, and to have 1 upper and 2 lower columns in the main content, here's the modified CSS:
+
+### Updated `Dashboard.css`
+
+```css
+/* src/styles/Dashboard.css */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 1rem;
+}
+
+.search-section-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.search-section-container input {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.radio-buttons-container label {
+  margin-right: 1rem;
+}
+
+.content-container {
+  display: flex;
+  height: 100%;
+}
+
+.user-info-container {
+  width: 20%;
+  background-color: #f4f4f4;
+  padding: 1rem;
+}
+
+.main-content-container {
+  width: 80%;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.main-content-container .top-left {
+  grid-column: 1 / 2;
+  background-color: #e0e0e0;
+}
+
+.main-content-container .top-right {
+  grid-column: 2 / 3;
+  background-color: #d0d0d0;
+}
+
+.main-content-container .bottom-left,
+.main-content-container .bottom-right {
+  grid-column: span 1;
+  background-color: #c0c0c0;
+}
+```
+
+### Explanation:
+
+1. **Renaming Classes**:
+   - Each class name has been updated with a `-container` suffix to avoid conflicts and ensure clarity.
+
+2. **Grid Structure Adjustments**:
+   - Changed the grid structure to have `grid-template-rows: 1fr;` and `grid-template-columns: 1fr 1fr;` in `.main-content-container` to accommodate 1 upper and 2 lower columns.
+   - Adjusted `.main-content-container .bottom-left` and `.main-content-container .bottom-right` to span 1 column each (`grid-column: span 1;`).
+
+### Usage in React Component
+
+In your React component where you import these styles:
+
+```jsx
+import React from 'react';
+import './styles/Dashboard.css'; // Import the updated Dashboard.css file
+
+const Dashboard = () => {
+  return (
+    <div className="dashboard-container">
+      <div className="search-section-container">
+        {/* Search section JSX */}
+      </div>
+      <div className="content-container">
+        <div className="user-info-container">
+          {/* User info JSX */}
+        </div>
+        <div className="main-content-container">
+          <div className="top-left">
+            {/* Top left content JSX */}
+          </div>
+          <div className="top-right">
+            {/* Top right content JSX */}
+          </div>
+          <div className="bottom-left">
+            {/* Bottom left content JSX */}
+          </div>
+          <div className="bottom-right">
+            {/* Bottom right content JSX */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
+```
+
+### Notes:
+
+- Ensure that the JSX structure in your React component matches the CSS classes defined in `Dashboard.css`.
+- Adjust the JSX content (`{/* JSX content */}`) accordingly to fit your application's requirements.
+
+This approach helps in organizing your CSS classes and grid structure effectively while avoiding naming conflicts and maintaining clarity in your codebase. Adjust the JSX and CSS further based on specific layout needs and design requirements.
