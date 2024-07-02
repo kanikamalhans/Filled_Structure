@@ -1,0 +1,75 @@
+/* App.css */
+
+/* Style for the overall app container */
+.app {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+}
+
+/* Style for the sidebar */
+.sidebar {
+  width: 200px; /* Width of the sidebar */
+  background-color: #333; /* Sidebar background color */
+  color: #fff; /* Text color */
+  padding: 20px;
+}
+
+/* Style for the main content area */
+.main-content {
+  flex: 1; /* Takes remaining space */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for the upper section */
+.upper-section {
+  background-color: #f0f0f0; /* Upper section background color */
+  padding: 20px;
+  flex: 1; /* Take remaining vertical space */
+}
+
+/* Style for the lower sections container */
+.lower-sections {
+  display: flex;
+  flex: 1; /* Take remaining vertical space */
+}
+
+/* Style for each lower section */
+.lower-section {
+  flex: 1; /* Equal width for both lower sections */
+  background-color: #e0e0e0; /* Lower section background color */
+  padding: 20px;
+  margin: 10px; /* Margin between lower sections */
+}
+
+import React from 'react';
+import './App.css'; // You can create your own CSS file for styling
+
+function App() {
+  return (
+    <div className="app">
+      <div className="sidebar">
+        {/* Vertical navigation bar content */}
+        Sidebar Content
+      </div>
+      <div className="main-content">
+        <div className="upper-section">
+          {/* Content for upper section */}
+          Upper Section Content
+        </div>
+        <div className="lower-sections">
+          <div className="lower-section">
+            {/* Content for first lower section */}
+            Lower Section 1 Content
+          </div>
+          <div className="lower-section">
+            {/* Content for second lower section */}
+            Lower Section 2 Content
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
