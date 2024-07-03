@@ -1,0 +1,92 @@
+To remove bullets from the list in your sidebar, you can apply CSS styles to override the default list styling. Here’s how you can modify your `Sidebar` component to achieve this:
+
+### Updated `Sidebar` Component
+
+Update the `Sidebar` component to include CSS styles that remove bullets from the list:
+
+```jsx
+// Sidebar.js
+
+import React, { useState } from 'react';
+import './styles.css'; // Ensure your CSS file is imported for custom styling
+
+// Example data for advisors
+const advisors = [
+  { state: 'Alabama', advisor: 'Alice Johnson' },
+  { state: 'Alaska', advisor: 'Bob Smith' },
+  // ... other states and advisors
+  { state: 'Wyoming', advisor: 'Xena Ramirez' }
+];
+
+const Sidebar = () => {
+  const [selectedState, setSelectedState] = useState('');
+
+  const handleStateChange = (e) => {
+    setSelectedState(e.target.value);
+  };
+
+  const filteredAdvisors = selectedState
+    ? advisors.filter((item) => item.state === selectedState)
+    : advisors;
+
+  return (
+    <div className="sidebar">
+      <h2>Advisors</h2>
+      <select value={selectedState} onChange={handleStateChange}>
+        <option value="">All States</option>
+        {advisors.map((item, index) => (
+          <option key={index} value={item.state}>
+            {item.state}
+          </option>
+        ))}
+      </select>
+      <ul className="advisor-list">
+        {filteredAdvisors.map((item, index) => (
+          <li key={index}>
+            {item.state}: {item.advisor}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Sidebar;
+```
+
+### Updated CSS
+
+Add CSS styles to your `styles.css` or equivalent stylesheet to remove bullets from the list:
+
+```css
+/* styles.css */
+
+.sidebar {
+  grid-area: sidebar;
+  background-color: #2c3e50; /* Dark blue for the sidebar */
+  color: #ecf0f1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  color: #fff; /* Adjust text color if needed */
+}
+
+.advisor-list {
+  list-style-type: none; /* Removes bullets from the list */
+  padding: 0;
+}
+
+.advisor-list li {
+  margin-bottom: 10px; /* Adjust spacing between list items */
+  color: #fff; /* Adjust text color if needed */
+}
+```
+
+### Explanation
+
+- **HTML Structure**: The `ul` (unordered list) element now includes the `advisor-list` class.
+- **CSS Styling**: The `.advisor-list` class in the CSS file sets `list-style-type: none;` to remove bullets from the list items (`li`).
+
+This setup ensures your list of advisors in the sidebar doesn't display bullets and aligns with the overall design of your React application. Adjust the colors and spacing as needed to fit your specific design requirements. If you have any further questions or need additional assistance, feel free to ask!
